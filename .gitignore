@@ -1,0 +1,4 @@
+/REST-Cypher*.tar.gz
+/REST-Cypher*/
+/.build/
+.*sw?
