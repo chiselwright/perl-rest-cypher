@@ -5,7 +5,9 @@ use warnings;
 use Moo;
 use MooX::Types::MooseLike::Base qw/Bool/;
 use MooseX::Params::Validate;
+use Try::Tiny;
 
+use REST::Cypher::Exceptions;
 use REST::Cypher::Agent;
 
 has agent => (
@@ -57,9 +59,28 @@ sub query {
         query_string => { isa => 'Str' },
     );
 
-    my $response = $self->agent->POST(
-        query_string => $params{query_string}
-    );
+    my $exception;
+    my $response;
+    try {
+        my $response = $self->agent->POST(
+            query_string => $params{query_string}
+        );
+    }
+    catch {
+        $exception = $_;
+    };
+    if ($exception) {
+        if (!blessed $exception) {
+            die "unhandled exception: $exception";
+        }
+
+        if ($exception->isa('REST::Cypher::Exceptions::TestException')) {
+            die "why are you using TestException?";
+        }
+
+        die $exception;
+        }
+    }
 }
 
 1;

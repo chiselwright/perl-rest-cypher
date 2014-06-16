@@ -59,19 +59,26 @@ lives_ok {
 }
     "POSTed a failing MATCH+params query";
 
+use Try::Tiny;
 use JSON::Any;
-my $j = JSON::Any->new;
-my $response_from_json = $j->decode($response->content);
-ok (
-    exists $response_from_json->{message},
-    'the response has a message'
-);
-is (
-    $response_from_json->{exception},
-    'SyntaxException',
-    'response raised SyntaxException'
-);
 
+try {
+    my $j = JSON::Any->new;
+    my $response_from_json = $j->decode($response->content);
+
+    ok (
+        exists $response_from_json->{message},
+        'the response has a message'
+    );
+    is (
+        $response_from_json->{exception},
+        'SyntaxException',
+        'response raised SyntaxException'
+    );
+}
+catch {
+    diag $_;
+};
 
 
 

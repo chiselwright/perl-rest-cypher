@@ -3,7 +3,11 @@ use Moo;
 use MooX::Types::MooseLike::Base qw/Bool/;
 use MooseX::Params::Validate;
 
+use JSON::Any;
 use LWP::UserAgent;
+use Try::Tiny;
+
+use REST::Cypher::Exceptions;
 
 has base_url => (
     is          => 'rw',
@@ -83,14 +87,21 @@ sub POST {
         query_string    => { isa => 'Str',      optional => 0, },
         query_params    => { isa => 'HashRef',  optional => 1, },
     );
-    
-    use JSON::Any;
-    my $json = JSON::Any->objToJson(
-        {
-            query   => $params{query_string},
-            params  => $params{query_params},
-        }
-    );
+
+    my ($exception, $json);
+
+    try {
+        $json = JSON::Any->objToJson(
+            {
+                query   => $params{query_string},
+                params  => $params{query_params},
+            }
+        );
+    }
+    catch {
+        $exception = $_;
+        REST::Cypher::Exceptions::InvalidJsonString->throw;
+    };
 
     if ($self->debug) {
         my $tmp =  $params{query_string};
