@@ -11,6 +11,10 @@ use REST::Cypher::Agent;
 my $rca;
 my $response;
 
+if (not defined $ENV{PERL_CYPHER_NEO4J_ADDRESS}) {
+    plan skip_all => 'PERL_CYPHER_NEO4J_ADDRESS needs a value';
+}
+
 # missing argument to new()
 dies_ok {
     $rca = REST::Cypher::Agent->new;
@@ -19,7 +23,7 @@ dies_ok {
 
 lives_ok {
     $rca = REST::Cypher::Agent->new(
-        base_url    => 'http://fulcrum-archdev.dave:7474/', # XXX
+        base_url    => $ENV{PERL_CYPHER_NEO4J_ADDRESS},
     );
 }
     'created new REST::Cypher::Agent object';
