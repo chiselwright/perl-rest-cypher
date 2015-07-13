@@ -41,11 +41,11 @@ lives_ok {
 
 
 # XXX archdev
-$rc = REST::Cypher->new( server => 'fulcrum-archdev.dave' );
+$rc = REST::Cypher->new( server => 'some.other.server' );
 is(
     $rc->rest_base_url,
-    'http://fulcrum-archdev.dave:7474',
-    "'rest_base_url' default value is 'http://fulcrum-archdev.dave:7474'",
+    'http://some.other.server:7474',
+    "'rest_base_url' default value is 'http://some.other.server:7474'",
 );
 lives_ok {
     $rc->query(
