@@ -2,3 +2,4 @@
 /REST-Cypher*/
 /.build/
 .*sw?
+/neo4j
