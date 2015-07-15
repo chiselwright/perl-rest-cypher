@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# https://buildkite.com/docs/guides/writing-build-scripts
+set -eo pipefail
+
+# install dist-zilla!
+cpanm --notest Dist::Zilla
