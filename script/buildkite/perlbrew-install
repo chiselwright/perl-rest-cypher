@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# https://buildkite.com/docs/guides/writing-build-scripts
+set -eo pipefail
+
+# make sure we have perlbrew and cpanm
+curl -kL http://install.perlbrew.pl |bash
+source ~/perl5/perlbrew/etc/bashrc
+perlbrew install-cpanm
+ 
+perlbrew available
+ 
+# install something similar to the version in perl-nap (as of Jul 2015)
+## this can take as long as 20-30 minutes; leave the window where you
+## can see it but get on with something else for a while
+## you only need to do this once (per version of perl you want available to you)
+perlbrew install perl-5.20.2
+# make sure it's our default
+perlbrew switch perl-5.20.2
