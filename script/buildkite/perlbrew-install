@@ -6,7 +6,9 @@ set -eo pipefail
 # make sure we have perlbrew and cpanm
 curl -kL http://install.perlbrew.pl |bash
 source ~/perl5/perlbrew/etc/bashrc
-perlbrew install-cpanm
+
+# just in case it asks us if we're sure we want to continue
+yes Y |perlbrew install-cpanm
  
 perlbrew available
  
