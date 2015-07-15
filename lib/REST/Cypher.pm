@@ -8,6 +8,11 @@ use MooseX::Params::Validate;
 
 use REST::Cypher::Agent;
 
+=head1 ATTRIBUTES
+
+=head2 agent
+
+=cut
 has agent => (
     is      => 'rw',
     lazy    => 1,
@@ -21,18 +26,27 @@ has agent => (
     },
 );
 
+=head2 server
+
+=cut
 has server => (
     is          => 'ro',
     required    => 1,
     default     => 'localhost',
 );
 
+=head2 server_port
+
+=cut
 has server_port => (
     is          => 'ro',
     required    => 1,
     default     => '7474',
 );
 
+=head2 rest_base_url
+
+=cut
 has rest_base_url => (
     is          => 'ro',
     lazy        => 1,
@@ -45,12 +59,22 @@ has rest_base_url => (
     },
 );
 
+=head2 debug
+
+=cut
 has debug => (
     is      => 'rw',
     isa     => Bool,
     default => 0,
 );
 
+=head1 METHODS
+
+=head2 query($self, %params)
+
+Send a Cypher query to the server,
+
+=cut
 sub query {
     my ($self, %params) = validated_hash(
         \@_,
