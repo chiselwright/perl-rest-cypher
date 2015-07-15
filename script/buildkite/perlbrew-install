@@ -8,7 +8,7 @@ curl -kL http://install.perlbrew.pl |bash
 source ~/perl5/perlbrew/etc/bashrc
 
 # just in case it asks us if we're sure we want to continue
-yes Y |perlbrew install-cpanm
+yes Y |perlbrew install-cpanm ||true
  
 perlbrew available
  
