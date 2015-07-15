@@ -5,12 +5,20 @@ use MooseX::Params::Validate;
 
 use LWP::UserAgent;
 
+=head1 ATTRIBUTES
+
+=head2 base_url
+
+=cut
 has base_url => (
     is          => 'rw',
     required    => 1,
     writer      => '_base_url',
 );
 
+=head2 cypher_url
+
+=cut
 has cypher_url => (
     is          => 'ro',
     lazy        => 1,
@@ -30,11 +38,17 @@ has cypher_url => (
     }
 );
 
+=head2 agent_string
+
+=cut
 has agent_string => (
     is      => 'ro',
     default => sub { q[REST::Cypher::Agent/0.0.0] },
 );
 
+=head2 agent
+
+=cut
 has agent => (
     is      => 'ro',
     lazy    => 1,
@@ -48,16 +62,29 @@ has agent => (
     },
 );
 
+=head2 last_response
+
+=cut
 has last_response => (
     is      => 'rw',
 );
 
+=head2 debug
+
+=cut
 has debug => (
     is      => 'rw',
     isa     => Bool,
     default => 0,
 );
 
+=head1 METHODS
+
+=cut
+
+=head2 GET
+
+=cut
 sub GET {
     my ($self, %params) = validated_hash(
         \@_,
@@ -77,6 +104,9 @@ sub GET {
 }
 
 
+=head2 POST
+
+=cut
 sub POST {
     my ($self, %params) = validated_hash(
         \@_,
