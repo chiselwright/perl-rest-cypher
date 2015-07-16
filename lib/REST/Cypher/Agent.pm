@@ -1,4 +1,5 @@
 package REST::Cypher::Agent;
+
 use Moo;
 use MooX::Types::MooseLike::Base qw/Bool/;
 use MooseX::Params::Validate;
