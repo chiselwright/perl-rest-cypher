@@ -2,4 +2,6 @@ Revision history for {{$dist->name}}
 
 {{$NEXT}}
 
+0.0.1     2015-07-16 13:47:38+00:00 UTC (TRIAL RELEASE)
+
  - Initial release of rough round the edges prototype
