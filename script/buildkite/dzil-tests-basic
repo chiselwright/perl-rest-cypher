@@ -11,6 +11,9 @@ source ~/perl5/perlbrew/etc/bashrc
 # (and nuke it when we're done)
 git checkout -qf -b buildkite/${BUILDKITE_COMMIT}
 
+# actually run the tests
 dzil test
 
+# we can't delete the branch we're on ... switch (back) to master
+git checkout -qf master
 git branch -D buildkite/${BUILDKITE_COMMIT}
