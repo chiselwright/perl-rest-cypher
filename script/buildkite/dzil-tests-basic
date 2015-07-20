@@ -5,4 +5,12 @@ set -eo pipefail
 
 source ~/perl5/perlbrew/etc/bashrc
 
+# due to the setup putting us in a detatched state we hit
+# "fatal: Cannot lock the ref ..."
+# a hack for this is to make a temporary branch, so we're no longer detatched
+# (and nuke it when we're done)
+git checkout -qf -b buildkite/${BUILDKITE_COMMIT}
+
 dzil test
+
+git branch -D buildkite/${BUILDKITE_COMMIT}
