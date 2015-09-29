@@ -2,6 +2,8 @@ Revision history for {{$dist->name}}
 
 {{$NEXT}}
 
+0.0.2     2015-09-29 10:21:52+01:00 Europe/London (TRIAL RELEASE)
+
  - Minor tweaks and improvements
 
 0.0.1     2015-07-16 13:47:38+00:00 UTC (TRIAL RELEASE)
