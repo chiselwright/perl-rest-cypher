@@ -63,6 +63,15 @@ has agent => (
     },
 );
 
+=head2 auth_token
+
+=cut
+has auth_token => (
+    is      => 'ro',
+    lazy    => 1,
+    default => 'bmVvNGo6ZHJhZzk5',
+);
+
 =head2 last_response
 
 =cut
@@ -94,7 +103,7 @@ sub GET {
 
     my $string =
         sprintf(
-            '%sdb/data%s',
+            '%s/db/data%s',
             $self->base_url,
             $params{query_string},
         );
@@ -129,11 +138,13 @@ sub POST {
         warn "[POST] $tmp\n";
     }
 
+$DB::single=1;
     $self->last_response(
         $self->agent->post(
             $self->cypher_url,
             Content => $json,
             'Content-Type' => 'application/json',
+            'Authorization' => "Basic " . $self->auth_token,
         )
     );
 }

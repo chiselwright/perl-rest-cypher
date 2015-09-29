@@ -4,7 +4,7 @@ REST::Cypher - REST::Cypher needs a more meaningful abstract
 
 # VERSION
 
-version 0.0.1
+version 0.0.2
 
 # ATTRIBUTES
 

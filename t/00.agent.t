@@ -7,6 +7,7 @@ use Test::Most;
 use FindBin::libs;
 
 use REST::Cypher::Agent;
+use HTTP::Status qw(:constants);
 
 my $rca;
 my $response;
@@ -30,10 +31,14 @@ lives_ok {
 
 lives_ok {
     $response = $rca->GET(
-        query_string => '/',
+        query_string => '',
     );
 }
     "successfully fetched '/'";
+
+# we're expecting to use a server that requires auth, so we should get a 401
+# for the GET-/ request
+is($response->code, HTTP_UNAUTHORIZED, "GET / returns HTTP_UNAUTHORIZED");
 
 lives_ok {
     $response = $rca->POST(
@@ -41,6 +46,7 @@ lives_ok {
     );
 }
     "successfully POSTed";
+    explain $response;
 
 lives_ok {
     $response = $rca->POST(
