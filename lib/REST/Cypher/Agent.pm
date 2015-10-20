@@ -1,9 +1,13 @@
 package REST::Cypher::Agent;
 
 use Moo;
+
+use REST::Cypher::Exception;
+
 use MooX::Types::MooseLike::Base qw/Bool/;
 use MooseX::Params::Validate;
 
+use JSON::Any;
 use LWP::UserAgent;
 
 =head1 ATTRIBUTES
@@ -124,7 +128,6 @@ sub POST {
         query_params    => { isa => 'HashRef',  optional => 1, },
     );
     
-    use JSON::Any;
     my $json = JSON::Any->objToJson(
         {
             query   => $params{query_string},
@@ -147,6 +150,12 @@ $DB::single=1;
             'Authorization' => "Basic " . $self->auth_token,
         )
     );
+
+    if (! $self->last_response->is_success) {
+        REST::Cypher::Exception::Response->throw({
+            response => $self->last_response,
+        });
+    }
 }
 
 

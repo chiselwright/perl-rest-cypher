@@ -5,6 +5,7 @@ use warnings;
 use Test::Most;
 
 use FindBin::libs;
+use Try::Tiny;
 
 use REST::Cypher;
 
@@ -31,13 +32,13 @@ is(
     "'rest_base_url' default value is 'http://localhost:7474'",
 );
 
-# this should (currently) live, as the response succeeds even though we can't
+# this should (currently) fail, as the response succeeds even though we can't
 # actually reach the server
-lives_ok {
+dies_ok {
     $rc->query(
         query_string => 'MATCH (n:Foo) RETURN count(n)',
     );
-} '->query call succeeds';
+} '->query call fails (unknown server: http://localhost:7474)';
 
 
 # XXX archdev
@@ -47,11 +48,30 @@ is(
     'http://some.other.server:7474',
     "'rest_base_url' default value is 'http://some.other.server:7474'",
 );
-lives_ok {
-    $rc->query(
-        query_string => 'MATCH (n:Foo) RETURN count(n)',
-    );
-} '->query call succeeds';
 
+# this should NOT live ... we don't have a sensible server to connect to
+dies_ok {
+    $rc->query({
+        query_string => 'MATCH (n:Foo) RETURN count(n)',
+    });
+} '->query call fails (unknown server: http://some.other.server:7474)';
+
+
+# this SHOULD live ... we catch the exception and see if it looks sensible,
+# but don't die.
+lives_ok {
+
+    my $response;
+    try {
+        $response = $rc->query({
+            query_string => 'MATCH (n:Foo) RETURN count(n)',
+        });
+    }
+    catch {
+        use Data::Dump 'pp';
+        warn "caught error: " . pp($_); # not $@
+    }
+
+} '->query call survives with try/catch (unknown server: http://some.other.server:7474)';
 
 done_testing;

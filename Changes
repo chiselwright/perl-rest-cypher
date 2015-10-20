@@ -2,6 +2,8 @@ Revision history for {{$dist->name}}
 
 {{$NEXT}}
 
+ - add exception throwing for some of the more common silly mistakes made
+
 0.0.2     2015-09-29 10:21:52+01:00 Europe/London (TRIAL RELEASE)
 
  - Minor tweaks and improvements
