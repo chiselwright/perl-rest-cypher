@@ -141,7 +141,6 @@ sub POST {
         warn "[POST] $tmp\n";
     }
 
-$DB::single=1;
     $self->last_response(
         $self->agent->post(
             $self->cypher_url,
