@@ -35,6 +35,9 @@ is(
 # this should (currently) fail, as the response succeeds even though we can't
 # actually reach the server
 dies_ok {
+    # use a server that we definitely can't have running, otherwise this test
+    # fails when someone really is running a local neo4j
+    $rc->server('example.com');
     $rc->query(
         query_string => 'MATCH (n:Foo) RETURN count(n)',
     );
