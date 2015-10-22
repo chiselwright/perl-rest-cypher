@@ -29,12 +29,32 @@ lives_ok {
 }
     'created new REST::Cypher::Agent object';
 
+# if AUTH is required...
+if (defined $ENV{PERL_CYPHER_NEO4J_AUTH_TOKEN}) {
+    $rca->auth_token($ENV{PERL_CYPHER_NEO4J_AUTH_TOKEN});
+
+    is(
+        $rca->auth_token,
+        $ENV{PERL_CYPHER_NEO4J_AUTH_TOKEN},
+        'auth_token correctly set to environment variable value'
+    );
+}
+
+# test GET with argument list
 lives_ok {
     $response = $rca->GET(
         query_string => '',
     );
 }
-    "successfully fetched '/'";
+    "successfully fetched '/' (list arguments)";
+
+# test GET with argument hash
+lives_ok {
+    $response = $rca->GET(
+        { query_string => '' }
+    );
+}
+    "successfully fetched '/' (hash arguments)";
 
 # we're expecting to use a server that requires auth, so we should get a 401
 # for the GET-/ request
@@ -46,7 +66,6 @@ lives_ok {
     );
 }
     "successfully POSTed";
-    explain $response;
 
 lives_ok {
     $response = $rca->POST(
@@ -57,8 +76,8 @@ lives_ok {
 
 # can't use params with MATCH (apparently)
 # we appear to still 'live', so we need to check the response for the error
-lives_ok {
-    $response = $rca->POST(
+dies_ok {
+    $rca->POST(
         query_string => 'MATCH (p:Product { props })-[r:HAS_SIZE]-(:Size) DELETE r',
         query_params => {
             props => {
@@ -71,7 +90,7 @@ lives_ok {
 
 use JSON::Any;
 my $j = JSON::Any->new;
-my $response_from_json = $j->decode($response->content);
+my $response_from_json = $j->decode($rca->last_response->content);
 ok (
     exists $response_from_json->{message},
     'the response has a message'
@@ -82,9 +101,6 @@ is (
     'response raised SyntaxException'
 );
 
-
-
-
-explain $response->content;
+#explain $response->content;
 
 done_testing;

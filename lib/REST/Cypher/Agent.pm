@@ -71,9 +71,9 @@ has agent => (
 
 =cut
 has auth_token => (
-    is      => 'ro',
+    is      => 'rw',
     lazy    => 1,
-    default => 'bmVvNGo6ZHJhZzk5',
+    default => 'bmVvNGo6bmVvNGo=',
 );
 
 =head2 last_response
