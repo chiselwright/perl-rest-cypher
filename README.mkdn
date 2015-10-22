@@ -4,7 +4,7 @@ REST::Cypher - REST::Cypher needs a more meaningful abstract
 
 # VERSION
 
-version 0.0.2
+version 0.0.3
 
 # ATTRIBUTES
 
@@ -26,7 +26,7 @@ Send a Cypher query to the server,
 
 # AUTHOR
 
-Chisel &lt;chisel@chizography.net>
+Chisel <chisel@chizography.net>
 
 # COPYRIGHT AND LICENSE
 
