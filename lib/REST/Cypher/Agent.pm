@@ -1,5 +1,8 @@
 package REST::Cypher::Agent;
 
+# ABSTRACT: Experimental client for using neo4j's REST/Cypher interface
+# KEYWORDS: neo4j graph graphdb cypher REST
+
 use Moo;
 
 use REST::Cypher::Exception;
@@ -14,6 +17,12 @@ use LWP::UserAgent;
 
 =head2 base_url
 
+This is the full URL value of the neo4j server to connect to.
+
+    base_url => http://my.neo4j.example.com:7474
+
+It is a B<required> attribute, with no default value.
+
 =cut
 has base_url => (
     is          => 'rw',
@@ -22,6 +31,10 @@ has base_url => (
 );
 
 =head2 cypher_url
+
+This is the URL used to connect to the Cypher endpoint(s).
+
+It is a B<derived> value, based on C<base_url>
 
 =cut
 has cypher_url => (
@@ -45,6 +58,10 @@ has cypher_url => (
 
 =head2 agent_string
 
+This attribute provides the value for the User Agent string when making API calls.
+
+This attribute has a B<default value> of C<REST::Cypher::Agent/0.0.0>, but may be overridden.
+
 =cut
 has agent_string => (
     is      => 'ro',
@@ -52,6 +69,10 @@ has agent_string => (
 );
 
 =head2 agent
+
+This attribute holds the agent object, used for making the HTTP calls to the API endpoint.
+
+The default value is an instance of L<LWP::UserAgent>. You may override this. I<At your own risk>.
 
 =cut
 has agent => (
@@ -69,6 +90,13 @@ has agent => (
 
 =head2 auth_token
 
+neo4j allows authentication to be enabled for connections to the database.
+For I<recent> versions this is enabled by default.
+
+The auth-token value is 'I<a base64 encoded string of "username:password">'
+
+The B<default value> is set to the equivalent of C<encode_base64('neo4j:neo4j')>.
+
 =cut
 has auth_token => (
     is      => 'rw',
@@ -78,12 +106,17 @@ has auth_token => (
 
 =head2 last_response
 
+This attribute stores the response object from the most recent call to the API.
+See L<HTTP::Response> for a description of the interface it provides.
+
 =cut
 has last_response => (
     is      => 'rw',
 );
 
 =head2 debug
+
+This I<boolean> attribute enables debugging output for the class.
 
 =cut
 has debug => (
@@ -97,6 +130,16 @@ has debug => (
 =cut
 
 =head2 GET
+
+This method provides low-level access to C<LWP::UserAgent->get()>.
+
+It takes care of constructing the URL, using the provided query parameters.
+
+The method returns the response object, after storing it in C<last_response>.
+
+    # (just) GET the base URL
+    $response = $cypher_agent->GET({query_string => '' });
+
 
 =cut
 sub GET {
@@ -157,5 +200,25 @@ sub POST {
     }
 }
 
-
 1;
+
+=pod
+
+=head1 DESCRIPTION
+
+Interact with a neo4j Cypher API.
+
+=head1 GENERATING AUTH TOKEN
+
+You can generate your own C<auth_token> value using L<MIME::Base64>
+
+    perl -MMIME::Base64 -e "warn encode_base64('neo4j:neo4j');"
+
+=head1 SEE ALSO
+
+=for :list
+* L<neo4j|http://neo4j.org>
+* L<REST::Neo4p>
+
+=cut
+

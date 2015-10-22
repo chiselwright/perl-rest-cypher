@@ -1,5 +1,8 @@
 package REST::Cypher;
 
+# ABSTRACT: Experimental client for using neo4j's REST/Cypher interface
+# KEYWORDS: neo4j graph graphdb cypher REST
+
 use strict;
 use warnings;
 
@@ -88,6 +91,52 @@ sub query {
 }
 
 1;
-# ABSTRACT: REST::Cypher needs a more meaningful abstract
+=pod
+
+=head1 DESCRIPTION
+
+Interact with a neo4j Cypher API.
+
+=head1 SYNOPSIS
+
+    use Rest::Cypher::Agent;
+    use Data::UUID;
+
+    my $neo = REST::Cypher::Agent->new({
+      base_url => 'http://example.com:7474',
+    });
+
+    my ($response, $nodeType);
+
+    # let's create a GUID for a node
+    my $guid = Data::UUID->new->to_string(Data::UUID->new->create);
+
+    $nodeType = 'MyNodeType';
+    $response = $neo->POST(
+      query_string => "MERGE (a:${nodeType} {guid: {newGUID}}) RETURN a",
+      query_params => {
+        newGUID => $guid,
+      }
+    );
+
+=head1 ACKNOWLEDGMENTS
+
+This module was written to scratch an itch after using L<REST::Neo4p>; I liked
+the L<REST::Neo4p::Query> and wanted to attempt to implement something that
+felt like it was Cypher driven, and less about specific nodes and indexes.
+
+I may be way off the mark, but this module is currently useful for throwing
+hand-written Cypher at a neo4j server.
+
+Over time it may even implement more interesting features.
+
+=head1 SEE ALSO
+
+=for :list
+* L<REST::Cypher::Agent>
+* L<neo4j|http://neo4j.org>
+* L<REST::Neo4p>
+
+=cut
 __END__
 # vim: ts=8 sts=4 et sw=4 sr sta

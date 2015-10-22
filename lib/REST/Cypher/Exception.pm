@@ -1,4 +1,5 @@
 package REST::Cypher::Exception {
+
     use strict;
     use warnings;
 
