@@ -2,6 +2,8 @@ Revision history for {{$dist->name}}
 
 {{$NEXT}}
 
+0.0.3     2015-10-22 15:12:04+01:00 Europe/London
+
  - add exception throwing for some of the more common silly mistakes made
 
 0.0.2     2015-09-29 10:21:52+01:00 Europe/London (TRIAL RELEASE)
