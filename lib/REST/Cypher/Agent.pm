@@ -5,7 +5,7 @@ package REST::Cypher::Agent;
 
 use Moo;
 
-use REST::Cypher::Exception;
+use REST::Cypher::Exception::Response;
 
 use MooX::Types::MooseLike::Base qw/Bool/;
 use MooseX::Params::Validate;
