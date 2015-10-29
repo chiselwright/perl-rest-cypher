@@ -4,7 +4,7 @@ REST::Cypher - Experimental client for using neo4j's REST/Cypher interface
 
 # VERSION
 
-version 0.0.3
+version 0.0.4
 
 # SYNOPSIS
 

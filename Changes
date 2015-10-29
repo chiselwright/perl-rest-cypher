@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.0.4     2015-10-29 19:27:48+00:00 Europe/London
  - stop using package{..} syntax
    - in principle there's nothing wrong with it; until you hit the hateful
      'find-provides' during RPM packaging. It doesn't recognise this syntax
